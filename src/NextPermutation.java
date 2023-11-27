@@ -4,33 +4,78 @@ import java.util.stream.Collectors;
 public class NextPermutation {
 
     public static void main(String[] args) {
+        Solution2 solution = new Solution2();
         int[] nums = {1, 2, 3};
-        new Solution().nextPermutation(nums);
+        solution.nextPermutation(nums);
         System.out.println(Arrays.stream(nums).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums1 = {3, 2, 1};
-        new Solution().nextPermutation(nums1);
+        solution.nextPermutation(nums1);
         System.out.println(Arrays.stream(nums1).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums2 = {1, 1, 5};
-        new Solution().nextPermutation(nums2);
+        solution.nextPermutation(nums2);
         System.out.println(Arrays.stream(nums2).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums3 = {1, 3, 2};
-        new Solution().nextPermutation(nums3);
+        solution.nextPermutation(nums3);
         System.out.println(Arrays.stream(nums3).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums4 = {1, 2};
-        new Solution().nextPermutation(nums4);
+        solution.nextPermutation(nums4);
         System.out.println(Arrays.stream(nums4).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums5 = {2, 3, 1};
-        new Solution().nextPermutation(nums5);
+        solution.nextPermutation(nums5);
         System.out.println(Arrays.stream(nums5).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums6 = {5, 4, 7, 5, 3, 2};
-        new Solution().nextPermutation(nums6);
+        solution.nextPermutation(nums6);
         System.out.println(Arrays.stream(nums6).mapToObj(String::valueOf).collect(Collectors.joining()));
         int[] nums7 = {4, 2, 0, 2, 3, 2, 0}; // 4,2,0,3,0,2,2
-        new Solution().nextPermutation(nums7);
+        solution.nextPermutation(nums7);
         System.out.println(Arrays.stream(nums7).mapToObj(String::valueOf).collect(Collectors.joining()));
     }
 
-    static class Solution {
+    static class Solution2 {
+        public void nextPermutation(int[] nums) {
+            int len = nums.length;
+            int idx1 = -1;
+            int idx2 = -1;
+            for (int i = len - 2; i >= 0; i--) {
+                if (nums[i] < nums[i + 1]) {
+                    idx1 = i;
+                    break;
+                }
+            }
+
+            if (idx1 == -1) {
+                reverse(nums, 0);
+            } else {
+                for (int i = len - 1; i >= 0; i--) {
+                    if (nums[i] > nums[idx1]) {
+                        idx2 = i;
+                        break;
+                    }
+                }
+
+                swap(nums, idx1, idx2);
+                reverse(nums, idx1 + 1);
+            }
+        }
+
+        public void swap(int[] nums, int i, int j) {
+            int temp = nums[j];
+            nums[j] = nums[i];
+            nums[i] = temp;
+        }
+
+        public void reverse(int[] nums, int start) {
+            int i = start;
+            int j = nums.length - 1;
+            while (i < j) {
+                swap(nums, i, j);
+                i++;
+                j--;
+            }
+        }
+    }
+
+    static class Solution1 {
         public void nextPermutation(int[] nums) {
             int len = nums.length;
             if (len == 1) {
